@@ -1,0 +1,16 @@
+.app_footer_grid {
+    background-color: $bg-color-body;
+    justify-content: space-between;
+    width: 100vw;
+}
+
+.footer {
+    width: 100vw;
+    background-color: $bg-color-body;
+    padding-bottom: 1vh;
+}
+
+.app_footer {
+    display: flex;
+    z-index: 10;
+}

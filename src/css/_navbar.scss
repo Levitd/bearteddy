@@ -1,0 +1,23 @@
+.header {
+    width: 100vw;
+    background-color: $bg-color-body;
+    padding-bottom: 1vh;
+}
+
+.app {
+    position: sticky;
+    z-index: 10;
+}
+
+.app-header {
+    background-color: $bg-color-body;
+    justify-content: space-between;
+}
+
+.switcher select {
+    width: 100%;
+}
+
+.nav-flex {
+    align-items: center;
+}

@@ -1,0 +1,22 @@
+@media screen and (max-width: $media_mobile_with) {
+    .h4 {
+        font-size: calc(1.25rem);
+    }
+
+    .app {
+        position: fixed;
+        bottom: 0;
+        width: 100vw;
+    }
+
+    .app_footer {
+        position: fixed;
+        bottom: 0;
+        bottom: 60px;
+        width: 100vw;
+    }
+
+    .link_text {
+        display: none;
+    }
+}

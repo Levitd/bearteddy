@@ -1,0 +1,78 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+html {
+  min-height: -webkit-fill-available;
+}
+
+#root {
+  flex: 1;
+}
+
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css");
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+$bg-color-body: #e3f2fd;
+$max-width-site: 1024px;
+$bg-page_link: #cff4fc;
+$media_mobile_with: 768px;
+
+.page_link {
+  width: 100vw;
+  background-color: $bg-page_link;
+  padding-bottom: 2vh;
+}
+
+.app,
+.app_footer,
+.main,
+.autors,
+.login {
+  max-width: $max-width-site;
+  margin: 0 auto;
+  padding-left: 1%;
+  padding-right: 1%;
+}
+
+.main,
+.autors,
+.login {
+  padding-top: 1vh;
+}
+
+.flex_row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.bi-lg {
+  font-size: 20px;
+}
+
+@import "./navbar.scss";
+// @import "./devices";
+@import "./main";
+@import "./footer";
+@import "./mobile";
