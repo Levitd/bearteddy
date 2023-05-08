@@ -65,6 +65,23 @@ h6 {
   font-size: 20px;
 }
 
+.headPage {
+  margin-bottom: 2vh;
+}
+
+.search {
+  min-width: 35%;
+}
+
+.filters {
+  min-width: 65%;
+  justify-content: space-between;
+}
+
+.btn-filters {
+  display: none;
+}
+
 .header {
   width: 100vw;
   background-color: #e3f2fd;
@@ -116,12 +133,28 @@ h6 {
     width: 100vw;
   }
   .app_footer {
-    position: fixed;
-    bottom: 0;
-    bottom: 60px;
-    width: 100vw;
+    padding-bottom: 60px;
   }
   .link_text {
     display: none;
+  }
+  .flex_row {
+    flex-wrap: wrap;
+  }
+  .btn-filters {
+    margin: 0 auto;
+    display: inline-block;
+  }
+  .search {
+    flex-wrap: nowrap;
+    min-width: 100%;
+    margin: 0 auto;
+  }
+  .filters {
+    justify-content: space-between;
+    display: none;
+  }
+  .form-select_filters {
+    font-size: 0.8rem;
   }
 }/*# sourceMappingURL=index.css.map */

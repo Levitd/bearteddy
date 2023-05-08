@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NavBar from "./components/ui/navBar";
 import {
   BrowserRouter,
@@ -13,9 +13,13 @@ import MainPage from "./layout/mainPage";
 import AutorsPage from "./layout/autorsPage";
 import Login from "./layout/login";
 import Footer from "./components/ui/footer";
+import SuccRegistr from "./components/ui/succRegistr";
+import NotRegistered from "./components/ui/notRegistered";
+import * as utils from "../src/api/utils/util";
+import PersonalArea from "./components/ui/personalArea";
 
 function App() {
-
+  const user = utils.getStorage('user_activ');
   function getInitialLocale() {
     const savedLocale = JSON.parse(localStorage.getItem('locale'));
     return savedLocale || LOCALES.ENGLISH;
@@ -32,12 +36,15 @@ function App() {
         locale={currentLocale} defaultLocale={LOCALES.ENGLISH}
       >
         <BrowserRouter>
-          <NavBar currentLocale={currentLocale} handleChange={handleChangeLang} />
+          <NavBar currentLocale={currentLocale} handleChange={handleChangeLang} user={user} />
           <div className="page_link">
             <Routes>
               <Route path="/" element={<MainPage />} />
               <Route path="autors" element={<AutorsPage />} />
               <Route path="login" element={<Login />} />
+              <Route path="successful_registration" element={<SuccRegistr />} />
+              <Route path="not_registered" element={<NotRegistered />} />
+              <Route path="personalArea" element={<PersonalArea />} />
             </Routes>
           </div>
           <Footer />

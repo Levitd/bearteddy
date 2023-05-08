@@ -10,13 +10,39 @@
     }
 
     .app_footer {
-        position: fixed;
-        bottom: 0;
-        bottom: 60px;
-        width: 100vw;
+        //     position: fixed;
+        //     bottom: 0;
+        //     bottom: 60px;
+        //     width: 100vw;
+        padding-bottom: 60px;
     }
 
     .link_text {
         display: none;
+    }
+
+    .flex_row {
+        flex-wrap: wrap;
+    }
+
+    .btn-filters {
+        // min-width: 10%;
+        margin: 0 auto;
+        display: inline-block;
+    }
+
+    .search {
+        flex-wrap: nowrap;
+        min-width: 100%;
+        margin: 0 auto;
+    }
+
+    .filters {
+        justify-content: space-between;
+        display: none;
+    }
+
+    .form-select_filters {
+        font-size: .8rem;
     }
 }

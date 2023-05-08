@@ -3,8 +3,7 @@ import { NavLink } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import { LOCALES } from "../../i18n/locales";
 
-
-const NavBar = ({ currentLocale, handleChange }) => {
+const NavBar = ({ currentLocale, handleChange, user }) => {
     const languages = [
         { name: 'English', code: LOCALES.ENGLISH },
         { name: 'Русский', code: LOCALES.RUSSIAN }]
@@ -49,7 +48,7 @@ const NavBar = ({ currentLocale, handleChange }) => {
                                     </select>
                                 </div>
                             </li>
-                            <li className="nav-item" key="login" >
+                            <li className={`nav-item nav-item_login ${user ? "d-none" : ""}`} key="login" >
                                 <NavLink className=
                                     {
                                         ({ isActive }) =>
@@ -62,6 +61,19 @@ const NavBar = ({ currentLocale, handleChange }) => {
                                     </div>
                                 </NavLink>
                             </li>
+                            <li className={`nav-item nav-item_personalArea ${!user ? "d-none" : ""}`} key="personalArea" >
+                                <NavLink className=
+                                    {
+                                        ({ isActive }) =>
+                                            isActive ? "nav-link active" : "nav-link"
+                                    }
+                                    to="personalArea" id="personalArea">
+                                    <div className='flex_row'>
+                                        <i className="bi bi-person-check-fill bi-lg"></i>
+                                        <span className='link_text'><FormattedMessage id='personal_area' /></span>
+                                    </div>
+                                </NavLink>
+                            </li>
                         </ul>
                     </nav>
                 </header>
@@ -71,3 +83,5 @@ const NavBar = ({ currentLocale, handleChange }) => {
 };
 
 export default NavBar;
+
+// {`nav-item ${!user ? "d-none" : ""}`}

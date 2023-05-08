@@ -41,6 +41,7 @@ $media_mobile_with: 768px;
   width: 100vw;
   background-color: $bg-page_link;
   padding-bottom: 2vh;
+  // padding-top: 2vh;
 }
 
 .app,
@@ -69,6 +70,23 @@ $media_mobile_with: 768px;
 
 .bi-lg {
   font-size: 20px;
+}
+
+.headPage {
+  margin-bottom: 2vh;
+}
+
+.search {
+  min-width: 35%;
+}
+
+.filters {
+  min-width: 65%;
+  justify-content: space-between;
+}
+
+.btn-filters {
+  display: none;
 }
 
 @import "./navbar.scss";
