@@ -7,7 +7,8 @@ import { FormattedMessage } from "react-intl";
 
 // <FormattedMessage id='login_or_register' />
 
-const Login = () => {
+const Login = ({ user }) => {
+    console.log(user);
     const { type } = useParams();
     const [formType, setFormType] = useState(type === "register" ? type : "login");
 
@@ -22,12 +23,12 @@ const Login = () => {
                         ? <>
                             <h3 className="mb-4"><FormattedMessage id='registration' /></h3>
 
-                            <RegisterForm />
+                            <RegisterForm user={user} />
                             <p className="mt-2"><FormattedMessage id='already_registered' />? <button type="button" className="btn btn-link" onClick={togleFormType}><FormattedMessage id='login' /></button></p>
                         </>
                         : <>
                             <h3 className="mb-4"><FormattedMessage id='login' /></h3>
-                            <LoginForm />
+                            <LoginForm user={user} />
                             <p className="mt-2"><FormattedMessage id='not_registered' />?<button type="button" className="btn btn-link" onClick={togleFormType}><FormattedMessage id='registration' /></button></p>
                         </>}
                 </div>

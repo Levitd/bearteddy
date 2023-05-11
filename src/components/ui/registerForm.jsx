@@ -10,7 +10,7 @@ import CheckBoxField from "../common/form/checkBoxField";
 import { FormattedMessage } from "react-intl";
 import * as utils from "../../api/utils/util";
 
-const RegisterForm = () => {
+const RegisterForm = ({ user }) => {
     const [data, setData] = useState({
         flName: "",
         email: "",
@@ -90,6 +90,7 @@ const RegisterForm = () => {
             if (utils.setStorage('users', [...users, data])) {
                 // пользователь зарегистрировался, сразу залогинем его
                 utils.setStorage('user_activ', [data]);
+                user = utils.hasUser(data.email, data.password);
                 document.querySelector(".nav-item_login").classList.toggle("d-none");
                 document.querySelector(".nav-item_personalArea").classList.toggle("d-none");
                 navigate("/successful_registration");

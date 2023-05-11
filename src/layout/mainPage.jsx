@@ -14,7 +14,7 @@ const MainPage = () => {
                         <button className="btn btn-outline-secondary" type="button" id="button-addon2"><i className="bi bi-search-heart"></i></button>
                     </div>
                     <div className="ms-1 btn-filters">
-                        <button type="button" class="btn btn-secondary"><i className="bi bi-filter-square"></i></button>
+                        <button type="button" className="btn btn-secondary"><i className="bi bi-filter-square"></i></button>
                     </div>
                 </div>
                 <div className="filters pe-2 flex_row">

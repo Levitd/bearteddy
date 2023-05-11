@@ -7,9 +7,11 @@ import TextField from "../common/form/textField";
 import RadioField from "../common/form/radioField";
 import CheckBoxField from "../common/form/checkBoxField";
 
-const PersonalArea = () => {
+const PersonalArea = ({ user }) => {
     const navigate = useNavigate();
-    const user = utils.getStorage('user_activ');
+    if (!user) {
+        user = utils.getStorage('user_activ');
+    }
     console.log(user);
 
     if (!user) {
@@ -91,6 +93,7 @@ const PersonalArea = () => {
     };
     const handleLogout = (e) => {
         utils.setStorageRemove("user_activ");
+        user = false;
         document.querySelector(".nav-item_login").classList.toggle("d-none");
         document.querySelector(".nav-item_personalArea").classList.toggle("d-none");
         navigate("/");

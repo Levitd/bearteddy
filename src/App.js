@@ -20,6 +20,8 @@ import PersonalArea from "./components/ui/personalArea";
 
 function App() {
   const user = utils.getStorage('user_activ');
+  const [isAuth] = useState(user ? true : false);
+
   function getInitialLocale() {
     const savedLocale = JSON.parse(localStorage.getItem('locale'));
     return savedLocale || LOCALES.ENGLISH;
@@ -36,15 +38,15 @@ function App() {
         locale={currentLocale} defaultLocale={LOCALES.ENGLISH}
       >
         <BrowserRouter>
-          <NavBar currentLocale={currentLocale} handleChange={handleChangeLang} user={user} />
+          <NavBar currentLocale={currentLocale} handleChange={handleChangeLang} isAuth={isAuth} />
           <div className="page_link">
             <Routes>
               <Route path="/" element={<MainPage />} />
               <Route path="autors" element={<AutorsPage />} />
-              <Route path="login" element={<Login />} />
+              <Route path="login" element={<Login />} user={user} />
               <Route path="successful_registration" element={<SuccRegistr />} />
               <Route path="not_registered" element={<NotRegistered />} />
-              <Route path="personalArea" element={<PersonalArea />} />
+              <Route path="personalArea" element={<PersonalArea />} user={user} />
             </Routes>
           </div>
           <Footer />

@@ -8,7 +8,8 @@ import { useNavigate } from "react-router-dom";
 
 // import * as yup from "yup";
 
-const LoginForm = () => {
+const LoginForm = ({ user }) => {
+    console.log(user);
     const navigate = useNavigate();
 
     const [data, setData] = useState({
@@ -68,8 +69,8 @@ const LoginForm = () => {
 
         const isValid = validate();
         if (!isValid) return;
-        console.log(data);
-        const user = utils.hasUser(data.email, data.password);
+        user = utils.hasUser(data.email, data.password);
+        console.log(data, user);
         if (user) {
             utils.setStorage('user_activ', [user]);
             document.querySelector(".nav-item_login").classList.toggle("d-none");
