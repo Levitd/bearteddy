@@ -1,4 +1,4 @@
-import * as utils from ".//util";
+import * as utils from "./util";
 export function validator(data, config) {
     const errors = {};
     function validate(validateMethod, data, config) {

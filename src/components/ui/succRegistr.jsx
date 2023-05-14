@@ -1,5 +1,5 @@
 import React from "react";
-import * as utils from "../../api/utils/util";
+import * as utils from "../../utils/util";
 import { FormattedMessage } from "react-intl";
 import { redirect } from "react-router-dom";
 import { Link } from "react-router-dom";

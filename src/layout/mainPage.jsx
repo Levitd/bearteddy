@@ -20,8 +20,8 @@ const MainPage = () => {
                 <div className="filters pe-2 flex_row">
                     <div className="filter">
                         <select className="form-select form-select_filters" aria-label="Default select news">
-                            <option value="1">Самые новые</option>
-                            <option value="2">Любимчики</option>
+                            <option value="1"><FormattedMessage id='the_newest' /></option>
+                            <option value="2"><FormattedMessage id='favorite' /></option>
                             <option value="3">Еще не проданные</option>
                             <option value="4">Нашедшие свой дом</option>
                             <option value="5">Ищут новый дом</option>

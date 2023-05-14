@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { FormattedMessage } from "react-intl";
-import * as utils from "../../api/utils/util";
+import * as utils from "../../utils/util";
 import { redirect, useNavigate } from "react-router-dom";
-import { validator } from "../../api/utils/validator";
-import TextField from "../common/form/textField";
-import RadioField from "../common/form/radioField";
-import CheckBoxField from "../common/form/checkBoxField";
+import FormComponent, { TextField, RadioField, CheckBoxField, SubmitCancelButton, ButtonField } from "../common/form";
+
 
 const PersonalArea = ({ user }) => {
     const navigate = useNavigate();
     if (!user) {
         user = utils.getStorage('user_activ');
     }
-    console.log(user);
-
     if (!user) {
         navigate("../not_registered");
     }
@@ -25,17 +21,17 @@ const PersonalArea = ({ user }) => {
         licence: user[0].licence
     };
 
-    const [data, setData] = useState(savedData);
-    useEffect(() => { validate(); }, [data]);
+    // const [data, setData] = useState(savedData);
+    // useEffect(() => { validate(); }, [data]);
 
-    const [errors, setErrors] = useState({});
+    // const [errors, setErrors] = useState({});
 
-    const handleChange = (target) => {
-        setData((prevState) => ({
-            ...prevState,
-            [target.name]: target.value
-        }));
-    };
+    // const handleChange = (target) => {
+    //     setData((prevState) => ({
+    //         ...prevState,
+    //         [target.name]: target.value
+    //     }));
+    // };
 
     const validatorConfig = {
         flName: {
@@ -51,9 +47,6 @@ const PersonalArea = ({ user }) => {
             isEmail: {
                 message: <FormattedMessage id='email_entered_incorrectly' />
             }
-            // hasEmail: {
-            //     message: <FormattedMessage id='the_specified_address_is_already_registered' />
-            // }
         },
         password: {
             isRequired: {
@@ -65,17 +58,7 @@ const PersonalArea = ({ user }) => {
         }
     };
 
-    const validate = () => {
-        const errors = validator(data, validatorConfig);
-        setErrors(errors);
-        return Object.keys(errors).length === 0;
-    };
-    const isValid = Object.keys(errors).length === 0;
     const handleSubmit = (e) => {
-        e.preventDefault();
-
-        const isValid = validate();
-        if (!isValid) return;
         // console.log('data', data.email);
         // const hasUser = utils.hasUser(data.email);
         // if (hasUser === -1) {
@@ -88,9 +71,7 @@ const PersonalArea = ({ user }) => {
         //     }
         // }
     };
-    const handleCancel = (e) => {
-        setData(savedData);
-    };
+
     const handleLogout = (e) => {
         utils.setStorageRemove("user_activ");
         user = false;
@@ -98,83 +79,46 @@ const PersonalArea = ({ user }) => {
         document.querySelector(".nav-item_personalArea").classList.toggle("d-none");
         navigate("/");
     };
-    /*
-                <div className="alert alert-dark" role="alert">
-                    <FormattedMessage id='personal_area' />
-                </div>
-    
-    */
 
+    // const Buttons = SubmitCancelButton("save_changes", "cancel_changes", "submitCancelButton");
+    // console.log(Buttons);
     return (
         <div className="main">
             <h1 className="headPage"><FormattedMessage id='personal_area' /></h1>
             <div className="row">
                 <div className="col-xl-4 col-lg-4 col-md-6 col-sm-8 offset-md-3 offset-sm-2 offset-lg-4 offset-xl-4 p-4 shadow">
-                    <form onSubmit={handleSubmit}>
+                    <FormComponent onSubmit={handleSubmit}
+                        validatorConfig={validatorConfig}
+                        defaultData={savedData}
+                    >
                         <TextField
                             label={<FormattedMessage id='your_first_and_last_name' />}
                             name="flName"
-                            value={data.flName}
-                            onChange={handleChange}
-                            error={errors.flName}
+                            autoFocus
                         />
                         <TextField
                             label={<FormattedMessage id='email' />}
                             name="email"
-                            value={data.email}
-                            onChange={handleChange}
-                            error={errors.email}
                         />
-                        {/* <TextField
-                    label={<FormattedMessage id='password' />}
-                    type="password"
-                    name="password"
-                    value={data.password}
-                    onChange={handleChange}
-                    error={errors.password}
-                /> */}
-                        {/* <SelectField
-                options={professions}
-                onChange={handleChange}
-                defaultOption="Выберите..."
-                error={errors.profession}
-                value={data.profession}
-                label="Выберите вашу профеcсию"
-                name="profession "
-            /> */}
                         <RadioField
                             options={[
                                 { name: <FormattedMessage id='male' />, value: "male" },
                                 { name: <FormattedMessage id='female' />, value: "female" }
                             ]}
-                            value={data.sex}
-                            onChange={handleChange}
                             name="sex"
                             label={<FormattedMessage id='choose_your_gender' />}
                         />
-                        {/* <MultiSelectField
-                options={qualities}
-                onChange={handleChange}
-                name="qualities"
-                label="Выберите Ваши качества"
-                defaultValue={data.qualities}
-            /> */}
-                        {/* <CheckBoxField
-                    value={data.licence}
-                    onChange={handleChange}
-                    name="licence"
-                    error={errors.licence}
-                >
-                    <FormattedMessage id='accept' /> <a><FormattedMessage id='license_agreement' /></a>
-                </CheckBoxField> */}
-                        <div className="flex_row">
-                            <button type="submit" disabled={!isValid} className="btn btn-primary w-100 mx-auto"><FormattedMessage id='save_changes' /></button>
-                            <button onClick={handleCancel} type="button" className="btn btn-primary w-100 mx-auto"><FormattedMessage id='cancel_changes' /></button>
-                        </div>
-                        <div>
-                            <button onClick={handleLogout} type="button" className="btn btn-danger w-100 mx-auto mt-2"><FormattedMessage id='logout' /></button>
-                        </div>
-                    </form>
+                        {/* <Buttons name="Buttons" /> */}
+                        <SubmitCancelButton name="submitCancelButton">
+                            <ButtonField type="submit" name="submit" />
+                            <ButtonField type="cancel" name="cancel" addClass={"mb-5"} />
+                        </SubmitCancelButton>
+                        {/* <div className="flex_row"> */}
+                        {/* <button type="submit" className="btn btn-primary w-100 mx-auto mb-2"><FormattedMessage id='save_changes' /></button>
+                        <button type="cancel" className="btn btn-primary w-100 mx-auto"><FormattedMessage id='cancel_changes' /></button> */}
+                        {/* </div> */}
+                        <button onClick={handleLogout} type="button" className="btn btn-danger w-100 mx-auto mt-2"><FormattedMessage id='logout' /></button>
+                    </FormComponent>
                 </div>
             </div>
         </div>

@@ -47,7 +47,11 @@ export const messages = {
         // меню
         about_project: 'About the project',
         contact_us: 'Contact us',
-        click_count: 'You clicked {count, plural, one {# time} other {# times}}'
+        click_count: 'You clicked {count, plural, one {# time} other {# times}}',
+        // filter: 
+        the_newest: `The newest`,
+        favorite: `Favorite`
+
     },
     [LOCALES.RUSSIAN]: {
         accept: `Принять`,
@@ -95,6 +99,9 @@ export const messages = {
         // меню
         about_project: 'О проекте',
         contact_us: 'Свяжитесь с нами',
-        click_count: `Вы кликнули {count, plural, one {# раз} other {# раз(а)}}`
+        click_count: `Вы кликнули {count, plural, one {# раз} other {# раз(а)}}`,
+        // filter: 
+        the_newest: `Самые новые`,
+        favorite: `Любимчики`
     }
 }

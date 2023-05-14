@@ -8,7 +8,6 @@ import { FormattedMessage } from "react-intl";
 // <FormattedMessage id='login_or_register' />
 
 const Login = ({ user }) => {
-    console.log(user);
     const { type } = useParams();
     const [formType, setFormType] = useState(type === "register" ? type : "login");
 

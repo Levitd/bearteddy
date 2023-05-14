@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-const TextField = ({ label, type, name, value, onChange, error, noValid, noLable, placeholder }) => {
+const TextField = ({ label, type, name, value, onChange, error, noValid, noLable, placeholder, ...rest }) => {
     const [showPassword, setShowPassword] = useState(false);
 
     const handleChange = ({ target }) => {
@@ -26,6 +26,7 @@ const TextField = ({ label, type, name, value, onChange, error, noValid, noLable
                 placeholder={placeholder}
                 onChange={handleChange}
                 className={getInputClasses()}
+                {...rest}
             />
             {type === "password" &&
                 (<button className="btn btn-outline-secondary" type="button" onClick={togleShowPassword}>
@@ -55,4 +56,4 @@ TextField.propTypes = {
     placeholder: PropTypes.string
 };
 
-export default TextField;
+export default React.memo(TextField);

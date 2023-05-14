@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { validator } from "../../api/utils/validator";
-import TextField from "../common/form/textField";
-import CheckBoxField from "../common/form/checkBoxField";
+import { validator } from "../../utils/validator";
+import FormComponent, { TextField, CheckBoxField } from "../common/form";
+
 import { FormattedMessage } from "react-intl";
-import * as utils from "../../api/utils/util";
+import * as utils from "../../utils/util";
 import { useNavigate } from "react-router-dom";
 
 // import * as yup from "yup";
 
 const LoginForm = ({ user }) => {
-    console.log(user);
     const navigate = useNavigate();
 
     const [data, setData] = useState({
@@ -17,7 +16,6 @@ const LoginForm = ({ user }) => {
         password: "",
         stayOn: false
     });
-    const [errors, setErrors] = useState({});
 
     // const validateScheme = yup.object().shape({
     //     password: yup.string().required("Пароль обязателен для заполнения").matches(/^(?=.*[A-Z])/, "Пароль должен содержать хотя бы 1 заглавную букву")
@@ -27,12 +25,6 @@ const LoginForm = ({ user }) => {
     //     email: yup.string().required("Электронная почта обязательна для заполнения").email("Email введен некорректно")
     // });
 
-    const handleChange = (target) => {
-        setData((prevState) => ({
-            ...prevState,
-            [target.name]: target.value
-        }));
-    };
     const validatorConfig = {
         email: {
             isRequired: {
@@ -55,22 +47,8 @@ const LoginForm = ({ user }) => {
         }
     };
 
-    useEffect(() => { validate(); }, [data]);
-
-    const validate = () => {
-        const errors = validator(data, validatorConfig);
-        // validateScheme.validate(data).then(() => setErrors({})).catch((err) => setErrors({ [err.path]: err.message }));
-        setErrors(errors);
-        return Object.keys(errors).length === 0;
-    };
-    const isValid = Object.keys(errors).length === 0;
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        const isValid = validate();
-        if (!isValid) return;
+    const handleSubmit = (data) => {
         user = utils.hasUser(data.email, data.password);
-        console.log(data, user);
         if (user) {
             utils.setStorage('user_activ', [user]);
             document.querySelector(".nav-item_login").classList.toggle("d-none");
@@ -79,32 +57,27 @@ const LoginForm = ({ user }) => {
         }
     };
     return (<>
-        <form onSubmit={handleSubmit}>
+        <FormComponent onSubmit={handleSubmit}
+            validatorConfig={validatorConfig}
+            defaultData={data}>
             <TextField
                 label={<FormattedMessage id='email' />}
                 name="email"
-                value={data.email}
-                onChange={handleChange}
-                error={errors.email}
+                autoFocus
             />
             <TextField
                 label={<FormattedMessage id='password' />}
                 type="password"
                 name="password"
-                value={data.password}
-                onChange={handleChange}
-                error={errors.password}
             />
             <CheckBoxField
-                value={data.stayOn}
-                onChange={handleChange}
                 name="stayOn"
             >
                 <FormattedMessage id='remain_in_the_system' />
             </CheckBoxField>
 
-            <button type="submit" disabled={!isValid} className="btn btn-primary w-100 mx-auto"><FormattedMessage id='login' /></button>
-        </form>
+            <button type="submit" className="btn btn-primary w-100 mx-auto"><FormattedMessage id='login' /></button>
+        </FormComponent>
     </>
     );
 };

@@ -15,7 +15,7 @@ import Login from "./layout/login";
 import Footer from "./components/ui/footer";
 import SuccRegistr from "./components/ui/succRegistr";
 import NotRegistered from "./components/ui/notRegistered";
-import * as utils from "../src/api/utils/util";
+import * as utils from "../src/utils/util";
 import PersonalArea from "./components/ui/personalArea";
 
 function App() {
