@@ -2,16 +2,21 @@ import React from "react";
 import { useIntl } from "react-intl";
 import PropTypes from "prop-types";
 
-const ButtonField = ({ type, label, addClass }) => {
+const ButtonField = ({ type, label, colorButton = "btn-primary", addClass = "", ...rest }) => {
+    // console.log({ ...rest });
     const intl = useIntl();
-    if (!label && type === "submit") {
-        label = "save_changes";
-    } else if (!label && type === "cancel") {
-        label = "cancel_changes";
+    if (!label) {
+        if (type === "submit") {
+            label = "save";
+        } else if (type === "cancel") {
+            label = "cancel";
+        } else {
+            label = "label_not_transmitted";
+        }
     }
     const labelButton = intl.messages[label];
     return (
-        <button type={type} className={"btn btn-primary w-100 mx-auto " + addClass}>{labelButton}</button>
+        <button type={type} className={"btn w-100 mx-auto " + colorButton + " " + addClass} {...rest}>{labelButton}</button>
     );
 }
 ButtonField.propTypes = {

@@ -1,7 +1,7 @@
 import React from "react";
 // import { ButtonField } from "./fields";
 
-const SubmitCancelButton = ({ children, name = "submitCancelButton" }) => {
+const GrouplButton = ({ children, name = "GrouplButton" }) => {
     return (
         <div id="submitCancel" className="flex_row" name={name}  >
             {children}
@@ -9,4 +9,4 @@ const SubmitCancelButton = ({ children, name = "submitCancelButton" }) => {
     );
 }
 
-export default SubmitCancelButton;
+export default GrouplButton;

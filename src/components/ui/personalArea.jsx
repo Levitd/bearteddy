@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import * as utils from "../../utils/util";
 import { redirect, useNavigate } from "react-router-dom";
-import FormComponent, { TextField, RadioField, CheckBoxField, SubmitCancelButton, ButtonField } from "../common/form";
+import FormComponent, { TextField, RadioField, CheckBoxField, SubmitCancelButton, ButtonField, GrouplButton } from "../common/form";
 
 
 const PersonalArea = ({ user }) => {
@@ -80,8 +80,6 @@ const PersonalArea = ({ user }) => {
         navigate("/");
     };
 
-    // const Buttons = SubmitCancelButton("save_changes", "cancel_changes", "submitCancelButton");
-    // console.log(Buttons);
     return (
         <div className="main">
             <h1 className="headPage"><FormattedMessage id='personal_area' /></h1>
@@ -108,16 +106,13 @@ const PersonalArea = ({ user }) => {
                             name="sex"
                             label={<FormattedMessage id='choose_your_gender' />}
                         />
-                        {/* <Buttons name="Buttons" /> */}
                         <SubmitCancelButton name="submitCancelButton">
                             <ButtonField type="submit" name="submit" />
                             <ButtonField type="cancel" name="cancel" addClass={"mb-5"} />
                         </SubmitCancelButton>
-                        {/* <div className="flex_row"> */}
-                        {/* <button type="submit" className="btn btn-primary w-100 mx-auto mb-2"><FormattedMessage id='save_changes' /></button>
-                        <button type="cancel" className="btn btn-primary w-100 mx-auto"><FormattedMessage id='cancel_changes' /></button> */}
-                        {/* </div> */}
-                        <button onClick={handleLogout} type="button" className="btn btn-danger w-100 mx-auto mt-2"><FormattedMessage id='logout' /></button>
+                        <GrouplButton>
+                            <ButtonField type="button" name="logout" label="logout" onClick={handleLogout} colorButton="btn-danger" />
+                        </GrouplButton>
                     </FormComponent>
                 </div>
             </div>

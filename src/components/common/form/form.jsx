@@ -38,6 +38,7 @@ const FormComponent = ({
         }
     }, [data]);
     const handleCancel = (e) => {
+        e.preventDefault();
         console.log("Нажали Cancel");
         setData(defaultData);
     }
@@ -63,33 +64,32 @@ const FormComponent = ({
                     child
                 );
             }
-            if (child.props.name !== "submit" && child.props.name !== "cancel" && child.props.name !== "submitCancelButton") {
-                config = {
-                    ...child.props,
-                    onChange: handleChange,
-                    value: data[child.props.name] || "",
-                    error: errors[child.props.name],
-                    onKeyDown: handleKeyDown
-                };
-            } else {
-                console.log(childType, child.props.name, child.props.type);
-                if (
-                    child.props.type === "submit" ||
-                    child.props.type === undefined
-                ) {
-                    config = { ...child.props, disabled: !isValid };
-                } else if (child.props.type === "cancel") {
-                    console.log("cancel", child.props);
-                    config = { ...child.props, onClick: handleCancel };
-                    console.log("cancel", child, child.props, config);
-                }
-            }
+            // if (child.props.name !== "submit" && child.props.name !== "cancel" && child.props.name !== "submitCancelButton") {
+            config = {
+                ...child.props,
+                onChange: handleChange,
+                value: data[child.props.name] || "",
+                error: errors[child.props.name],
+                onKeyDown: handleKeyDown
+            };
+            // } else {
+            //     console.log(childType, child.props.name, child.props.type);
+            //     if (
+            //         child.props.type === "submit" ||
+            //         child.props.type === undefined
+            //     ) {
+            //         config = { ...child.props, disabled: !isValid };
+            //     } else if (child.props.type === "cancel") {
+            //         console.log("cancel", child.props);
+            //         config = { ...child.props, onClick: handleCancel };
+            //         console.log("cancel", child, child.props, config);
+            //     }
+            // }
             return React.cloneElement(child, config);
         }
         if (childType === "string") {
             // console.log(child.type, child.props.children);
-            if (child.type === "button") {
-
+            if (child.type === "button") { // кнопки без обертки
                 if (
                     child.props.type === "submit" ||
                     child.props.type === undefined
@@ -102,33 +102,26 @@ const FormComponent = ({
             }
             return React.cloneElement(child, config);
         }
-        if (childType === "function") {
+        if (childType === "function") { //Кнопки пришли в обертке
             let configBut = {};
-            // console.log(child, child.props, child.props.name, child.props.children);
             const cloneButtonElement = React.Children.map(child.props.children, (butChild, idx) => {
-                console.log({ butChild });
                 if (butChild.props.name === "submit") {
-                    configBut = { ...butChild.props, disabled: !isValid, key: "_" + idx + 1 };
+                    configBut = { ...butChild.props, disabled: !isValid, key: "s_" + idx + 1 };
                 } else if (butChild.props.name === "cancel") {
-                    // console.log("add onClick cancel");
-                    console.log(butChild.props);
-                    React.Children.map(butChild.props.children, (butChild2) => {
-                        console.log(butChild2);
-                    });
-                    configBut = { ...butChild.props, onClick: handleCancel, key: "_" + idx + 1 };
+                    configBut = { ...butChild.props, onClick: handleCancel, key: "c_" + idx + 1 };
+                } else {
+                    configBut = { ...butChild.props, key: "b_" + idx + 1 };
                 }
                 return React.cloneElement(butChild, configBut);
             })
-            console.log(cloneButtonElement);
             return React.cloneElement(child, config, ...cloneButtonElement);
-            // return <>{cloneButtonElement}</>;
         }
         if (childType !== "string" && childType !== "object" && childType !== "function") {
             console.log(child, child.props, child.props.name);
         }
 
     });
-    console.log(clonedElements);
+    // console.log(clonedElements);
     return <form onSubmit={handleSubmit}>{clonedElements}</form>;
 };
 FormComponent.propTypes = {
