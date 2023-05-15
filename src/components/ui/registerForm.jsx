@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { validator } from "../../utils/validator";
-import FormComponent, { TextField, RadioField, CheckBoxField } from "../common/form";
+import FormComponent, { TextField, RadioField, CheckBoxField, GrouplButton, ButtonField } from "../common/form";
 import { FormattedMessage } from "react-intl";
 import * as utils from "../../utils/util";
 
 const RegisterForm = ({ user }) => {
-    const [data, setData] = useState({
+    const [defaultData] = useState({
         flName: "",
         email: "",
         password: "",
@@ -14,14 +14,6 @@ const RegisterForm = ({ user }) => {
         licence: false
     });
     const navigate = useNavigate();
-
-
-    // const handleChange = (target) => {
-    //     setData((prevState) => ({
-    //         ...prevState,
-    //         [target.name]: target.value
-    //     }));
-    // };
 
     const validatorConfig = {
         flName: {
@@ -73,7 +65,7 @@ const RegisterForm = ({ user }) => {
     return (<>
         <FormComponent onSubmit={handleSubmit}
             validatorConfig={validatorConfig}
-            defaultData={data}
+            defaultData={defaultData}
         >
             <TextField
                 label={<FormattedMessage id='your_first_and_last_name' />}
@@ -93,17 +85,18 @@ const RegisterForm = ({ user }) => {
                     { name: <FormattedMessage id='male' />, value: "male" },
                     { name: <FormattedMessage id='female' />, value: "female" }
                 ]}
-                value={data.sex}
+                // value={data.sex}
                 label={<FormattedMessage id='choose_your_gender' />}
                 name="sex"
             />
             <CheckBoxField
                 name="licence"
-            // error={errors.licence}
             >
                 <FormattedMessage id='accept' /> <a><FormattedMessage id='license_agreement' /></a>
             </CheckBoxField>
-            <button type="submit" className="btn btn-primary w-100 mx-auto"><FormattedMessage id='registration' /></button>
+            <GrouplButton>
+                <ButtonField type="submit" label="registration" />
+            </GrouplButton>
         </FormComponent>
     </>
     );

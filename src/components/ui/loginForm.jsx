@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { validator } from "../../utils/validator";
-import FormComponent, { TextField, CheckBoxField } from "../common/form";
+import FormComponent, { TextField, CheckBoxField, GrouplButton, ButtonField } from "../common/form";
 
 import { FormattedMessage } from "react-intl";
 import * as utils from "../../utils/util";
@@ -75,8 +75,9 @@ const LoginForm = ({ user }) => {
             >
                 <FormattedMessage id='remain_in_the_system' />
             </CheckBoxField>
-
-            <button type="submit" className="btn btn-primary w-100 mx-auto"><FormattedMessage id='login' /></button>
+            <GrouplButton>
+                <ButtonField type="submit" label="login" />
+            </GrouplButton>
         </FormComponent>
     </>
     );
