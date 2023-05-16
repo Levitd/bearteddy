@@ -11,11 +11,11 @@ const Footer = () => {
 
                     <FormattedDate value={Date.now()} />
                     <br />
-                    <FormattedNumber value={2000} />
+                    {/* <FormattedNumber value={2000} />
                     <br />
                     <FormattedPlural value={5} one='1 click' other='5 clicks' />
                     <br />
-                    <FormattedMessage id="click_count" values={{ count }} />
+                    <FormattedMessage id="click_count" values={{ count }} /> */}
                 </div>
             </div>
         </div>

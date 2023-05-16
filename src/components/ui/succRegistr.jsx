@@ -1,17 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import * as utils from "../../utils/util";
 import { FormattedMessage } from "react-intl";
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 
 const SuccRegistr = () => {
     const user = utils.getStorage('user_activ');
-    // const navigate = useNavigate();
-    if (!user) {
-        console.log("redirect");
-        // return redirect("/not_registered");
-    } else {
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (!user) {
+            // return redirect("/not-registered"); // Не могу заставить работать
+            navigate("/not-registered");
+        }
+    }, [user]);
+    if (user) {
         return (
             <div className="alert alert-success" role="alert">
                 <FormattedMessage id='you_have_successfully_registered' />!

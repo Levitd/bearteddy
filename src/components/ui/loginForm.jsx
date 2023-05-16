@@ -56,10 +56,15 @@ const LoginForm = ({ user }) => {
             navigate("/");
         }
     };
+    const recalculation = (data) => {
+        return (data);
+    }
     return (<>
         <FormComponent onSubmit={handleSubmit}
             validatorConfig={validatorConfig}
-            defaultData={data}>
+            defaultData={data}
+            recalculation={recalculation}
+        >
             <TextField
                 label={<FormattedMessage id='email' />}
                 name="email"
@@ -76,7 +81,7 @@ const LoginForm = ({ user }) => {
                 <FormattedMessage id='remain_in_the_system' />
             </CheckBoxField>
             <GrouplButton>
-                <ButtonField type="submit" label="login" />
+                <ButtonField name="submit" type="submit" label="login" />
             </GrouplButton>
         </FormComponent>
     </>

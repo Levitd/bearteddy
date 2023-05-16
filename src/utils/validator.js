@@ -25,6 +25,11 @@ export function validator(data, config) {
             statusValidate = utils.hasEmail(data) > -1;
         } else if (validateMethod === "hasEmail") {
             statusValidate = utils.hasEmail(data) === -1;
+        } else if (validateMethod === "maxDate") {
+            statusValidate = utils.maxDateOfToday(data);
+        } else if (validateMethod === "isLink") {
+            const linkRegExp = /([a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}/g;
+            statusValidate = data ? !linkRegExp.test(data) : false;
         };
         if (statusValidate) return config.message;
     };

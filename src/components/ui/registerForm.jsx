@@ -2,16 +2,24 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { validator } from "../../utils/validator";
 import FormComponent, { TextField, RadioField, CheckBoxField, GrouplButton, ButtonField } from "../common/form";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import * as utils from "../../utils/util";
 
+// https://t.me/Blackshadow_rus
+
 const RegisterForm = ({ user }) => {
+    const today = utils.getDate("today");
+    const intl = useIntl();
+
     const [defaultData] = useState({
         flName: "",
         email: "",
         password: "",
         sex: "male",
-        licence: false
+        licence: false,
+        dateOfBirth: 0,
+        fullYears: "",
+        telegram: "",
     });
     const navigate = useNavigate();
 
@@ -43,11 +51,22 @@ const RegisterForm = ({ user }) => {
         },
         licence: {
             isRequired: { message: <FormattedMessage id='registration_is_not_possible_without_accepting_the_license_agreement' /> }
+        },
+        dateOfBirth: {
+            maxDate: { message: <FormattedMessage id='max_date_of_birth' /> }
+        },
+        telegram: {
+            isLink: { message: <FormattedMessage id="link_is_incorrect" /> }
         }
     };
-
+    const recalculation = (data) => {
+        const [age, letter] = utils.getFullYearOfBirth(data.dateOfBirth);
+        if (age && letter) {
+            data.fullYears = `${age} ${intl.messages[letter]}`;
+        }
+    }
     const handleSubmit = (data) => {
-        console.log('data', data.email);
+        // console.log('data', data.email);
         const hasEmail = utils.hasEmail(data.email);
         if (hasEmail === -1) {
             let users = utils.getStorage('users');
@@ -66,6 +85,7 @@ const RegisterForm = ({ user }) => {
         <FormComponent onSubmit={handleSubmit}
             validatorConfig={validatorConfig}
             defaultData={defaultData}
+            recalculation={recalculation}
         >
             <TextField
                 label={<FormattedMessage id='your_first_and_last_name' />}
@@ -74,6 +94,19 @@ const RegisterForm = ({ user }) => {
             <TextField
                 label={<FormattedMessage id='email' />}
                 name="email"
+            />
+            <TextField
+                label={<FormattedMessage id='date_of_birth' />}
+                name="dateOfBirth"
+                type="date"
+                max={today}
+            />
+            <TextField
+                label={<FormattedMessage id='full_years' />}
+                name="fullYears"
+                readOnly="readonly"
+                disabled={true}
+                noValid={true}
             />
             <TextField
                 label={<FormattedMessage id='password' />}
@@ -89,13 +122,19 @@ const RegisterForm = ({ user }) => {
                 label={<FormattedMessage id='choose_your_gender' />}
                 name="sex"
             />
+            <TextField
+                label={<FormattedMessage id='your_telegram_profile' />}
+                labelLeft={<i className="bi bi-telegram icon-size-big"></i>}
+                type="text"
+                name="telegram"
+            />
             <CheckBoxField
                 name="licence"
             >
                 <FormattedMessage id='accept' /> <a><FormattedMessage id='license_agreement' /></a>
             </CheckBoxField>
             <GrouplButton>
-                <ButtonField type="submit" label="registration" />
+                <ButtonField name="submit" type="submit" label="registration" />
             </GrouplButton>
         </FormComponent>
     </>

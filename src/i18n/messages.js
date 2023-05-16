@@ -5,6 +5,7 @@ export const messages = {
         accept: `Accept`,
         save: `Save`,
         save_changes: `Save changes`,
+        data_saved: `Data saved`,
         cancel: `Cancel`,
         cancel_changes: `Cancel changes`,
         login_or_register: `Login or register`,
@@ -53,13 +54,24 @@ export const messages = {
         click_count: 'You clicked {count, plural, one {# time} other {# times}}',
         // filter: 
         the_newest: `The newest`,
-        favorite: `Favorite`
-
+        favorite: `Favorite`,
+        // date
+        date_of_birth: `Date of birth`,
+        max_date_of_birth: `
+        Date of birth cannot be greater than the current day`,
+        full_years: `Full years`,
+        years: `years`,
+        year: `year`,
+        of_the_year: `years`,
+        // link
+        link_is_incorrect: `link is not correct`,
+        your_telegram_profile: `Your telegram profile`
     },
     [LOCALES.RUSSIAN]: {
         accept: `Принять`,
         save: `Сохранить`,
         save_changes: `Сохранить изменения`,
+        data_saved: `Данные сохранены`,
         cancel: `Отмена`,
         cancel_changes: `Отменить изменения`,
         login_or_register: 'Войти или зарегистрироваться',
@@ -108,6 +120,17 @@ export const messages = {
         click_count: `Вы кликнули {count, plural, one {# раз} other {# раз(а)}}`,
         // filter: 
         the_newest: `Самые новые`,
-        favorite: `Любимчики`
+        // date
+        favorite: `Любимчики`,
+        date_of_birth: `Дата рождения`,
+        max_date_of_birth: `Дата рождения не может быть больше текущего дня`,
+        full_years: `Полных лет`,
+        years: `лет`,
+        year: `год`,
+        of_the_year: `года`,
+        // link
+        link_is_incorrect: `Cсылка не корректна`,
+        your_telegram_profile: `Ваш профиль в телеграмм`
+
     }
 }

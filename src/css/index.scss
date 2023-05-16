@@ -89,6 +89,16 @@ $media_mobile_with: 768px;
   display: none;
 }
 
+// .message-window {
+//   position: sticky;
+//   top: 2vh;
+//   right: 5vw;
+// }
+
+.icon-size-big {
+  font-size: 18px;
+}
+
 @import "./navbar.scss";
 // @import "./devices";
 @import "./main";

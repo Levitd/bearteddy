@@ -5,9 +5,10 @@ const FormComponent = ({
     children,
     validatorConfig,
     onSubmit,
-    defaultData
+    defaultData,
+    recalculation
 }) => {
-    // console.log(children);
+    // console.log(recalculation);
     const [data, setData] = useState(defaultData || {});
     const [errors, setErrors] = useState({});
     const handleChange = useCallback((target) => {
@@ -35,6 +36,7 @@ const FormComponent = ({
     useEffect(() => {
         if (Object.keys(data).length > 0) {
             validate(data);
+            recalculation(data);
         }
     }, [data]);
     const handleCancel = (e) => {
@@ -104,17 +106,27 @@ const FormComponent = ({
         }
         if (childType === "function") { //Кнопки пришли в обертке
             let configBut = {};
-            const cloneButtonElement = React.Children.map(child.props.children, (butChild, idx) => {
-                if (butChild.props.name === "submit") {
-                    configBut = { ...butChild.props, disabled: !isValid, key: "s_" + idx + 1 };
-                } else if (butChild.props.name === "cancel") {
-                    configBut = { ...butChild.props, onClick: handleCancel, key: "c_" + idx + 1 };
+            if (child.props.children !== "undefined") {
+                // console.log(child.props.children);
+                const cloneButtonElement = React.Children.map(child.props.children, (butChild, idx) => {
+                    // console.log(butChild.props.name);
+                    if (butChild.props.name === "submit") {
+                        configBut = { ...butChild.props, disabled: !isValid, key: "s_" + idx + 1 };
+                    } else if (butChild.props.name === "cancel") {
+                        configBut = { ...butChild.props, onClick: handleCancel, key: "c_" + idx + 1 };
+                    } else if (butChild.props.name === "button") {
+                        configBut = { ...butChild.props, key: "b_" + idx + 1 };
+                    } else {
+                        return;
+                    }
+                    return React.cloneElement(butChild, configBut);
+                })
+                if (cloneButtonElement) {
+                    return React.cloneElement(child, config, ...cloneButtonElement);
                 } else {
-                    configBut = { ...butChild.props, key: "b_" + idx + 1 };
+                    return child;
                 }
-                return React.cloneElement(butChild, configBut);
-            })
-            return React.cloneElement(child, config, ...cloneButtonElement);
+            }
         }
         if (childType !== "string" && childType !== "object" && childType !== "function") {
             console.log(child, child.props, child.props.name);

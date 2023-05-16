@@ -82,6 +82,10 @@ h6 {
   display: none;
 }
 
+.icon-size-big {
+  font-size: 18px;
+}
+
 .header {
   width: 100vw;
   background-color: #e3f2fd;

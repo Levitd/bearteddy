@@ -45,8 +45,8 @@ function App() {
               <Route path="autors" element={<AutorsPage />} />
               <Route path="login" element={<Login />} user={user} />
               <Route path="successful_registration" element={<SuccRegistr />} />
-              <Route path="not_registered" element={<NotRegistered />} />
-              <Route path="personalArea" element={<PersonalArea />} user={user} />
+              <Route path="not-registered" element={<NotRegistered />} />
+              <Route path="personalArea" element={<PersonalArea />} userActive={user} />
             </Routes>
           </div>
           <Footer />

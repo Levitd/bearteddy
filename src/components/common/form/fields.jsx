@@ -6,4 +6,15 @@ import CheckBoxField from "./checkBoxField";
 import SubmitCancelButton from "./submitCalcelButton";
 import ButtonField from "./buttonField";
 import GrouplButton from "./groupButton";
-export { TextField, SelectField, MultiSelectField, RadioField, CheckBoxField, SubmitCancelButton, ButtonField, GrouplButton };
+import MessageWindow from "./mesageWindow";
+export {
+    TextField,
+    SelectField,
+    MultiSelectField,
+    RadioField,
+    CheckBoxField,
+    SubmitCancelButton,
+    ButtonField,
+    GrouplButton,
+    MessageWindow
+};
