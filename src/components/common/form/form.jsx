@@ -11,7 +11,7 @@ const FormComponent = ({
     const [data, setData] = useState(defaultData || {});
     const [errors, setErrors] = useState({});
     const handleChange = useCallback((target) => {
-        console.log(target);
+        // console.log(target);
         setData((prevState) => ({
             ...prevState,
             [target.name]: target.value
