@@ -5,6 +5,7 @@ import FormComponent, { TextField, CheckBoxField, GrouplButton, ButtonField } fr
 import { FormattedMessage } from "react-intl";
 import * as utils from "../../utils/util";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "hooks/useUsers";
 
 // import * as yup from "yup";
 
@@ -47,14 +48,17 @@ const LoginForm = ({ user }) => {
         }
     };
 
+    const { users, findUser } = useUser();
+
     const handleSubmit = (data) => {
-        user = utils.hasUser(data.email, data.password);
-        if (user) {
-            utils.setStorage('user_activ', [user]);
-            document.querySelector(".nav-item_login").classList.toggle("d-none");
-            document.querySelector(".nav-item_personalArea").classList.toggle("d-none");
-            navigate("/");
-        }
+        // user = utils.hasUser(data.email, data.password);
+        user = findUser({ params: { "email": data.email, "password": data.password } });
+        // if (user) {
+        //     utils.setStorage('user_activ', [user]);
+        //     document.querySelector(".nav-item_login").classList.toggle("d-none");
+        //     document.querySelector(".nav-item_personalArea").classList.toggle("d-none");
+        //     navigate("/");
+        // }
     };
     const recalculation = (data) => {
         return (data);

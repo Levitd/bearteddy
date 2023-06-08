@@ -1,7 +1,7 @@
-import React, { useEffect, useState, ReactDOM } from "react";
+import React, { useEffect } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import * as utils from "../../utils/util";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import FormComponent, {
     TextField,
     RadioField,
@@ -10,6 +10,7 @@ import FormComponent, {
     GrouplButton,
     MessageWindow
 } from "../common/form";
+import { toast } from "react-toastify";
 
 
 const PersonalArea = ({ userActive }) => {
@@ -69,7 +70,8 @@ const PersonalArea = ({ userActive }) => {
 
         const handleSubmit = (data) => {
             utils.updateUser(userActive[0], data);
-            utils.showMessage("", intl.messages["data_saved"], "danger");
+            toast.info(intl.messages["data_saved"]);
+            // utils.showMessage("", intl.messages["data_saved"], "danger");
         };
 
         const handleLogout = (e) => {
