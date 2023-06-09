@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 
 const SuccRegistr = () => {
-    const user = utils.getStorage('user_activ');
+    const user = utils.getStorage('user_active');
     const navigate = useNavigate();
     useEffect(() => {
         if (!user) {

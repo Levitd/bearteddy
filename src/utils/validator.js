@@ -16,7 +16,7 @@ export function validator(data, config) {
         } else if (validateMethod === "isCapitalSymbol") {
             const capitalRegExp = /[A-Z]+/g;
             statusValidate = !capitalRegExp.test(data);
-        } else if (validateMethod === "isContainDogit") {
+        } else if (validateMethod === "isContainNumber") {
             const digitRegExp = /\d/g;
             statusValidate = !digitRegExp.test(data);
         } else if (validateMethod === "min") {
@@ -30,9 +30,9 @@ export function validator(data, config) {
         } else if (validateMethod === "isLink") {
             const linkRegExp = /([a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}/g;
             statusValidate = data ? !linkRegExp.test(data) : false;
-        };
+        }
         if (statusValidate) return config.message;
-    };
+    }
 
     for (const fieldName in data) {
         for (const validateMethod in config[fieldName]) {
@@ -43,4 +43,4 @@ export function validator(data, config) {
         }
     }
     return errors;
-};
+}

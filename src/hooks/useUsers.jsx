@@ -14,16 +14,6 @@ const UserProvider = ({ children }) => {
     const [isLoading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    useEffect(() => {
-        getUsers();
-    }, []);
-    useEffect(() => {
-        if (error !== null) {
-            toast.error(error);
-            setError(null);
-        }
-    }, [error]);
-
     async function getUsers() {
         try {
             const { content } = await UserService.get();
@@ -34,17 +24,17 @@ const UserProvider = ({ children }) => {
         }
     }
 
-    async function findUser(data) {
-        console.log(data);
-        try {
-            const { content } = await UserService.find(data);
-            // setUsers(content);
-            console.log(content);
-            setLoading(false);
-        } catch (error) {
-            errorCatcher(error);
+    useEffect(() => {
+        getUsers();
+        // eslint-disable-next-line
+    }, []);
+
+    useEffect(() => {
+        if (error !== null) {
+            toast.error(error);
+            setError(null);
         }
-    }
+    }, [error]);
 
     function errorCatcher(error) {
         const { message } = error.response.data;
@@ -53,7 +43,7 @@ const UserProvider = ({ children }) => {
     };
 
     return (
-        <UserContext.Provider value={{ users, findUser }}>
+        <UserContext.Provider value={{ users }}>
             {!isLoading ? children : "Loading..."}
         </UserContext.Provider>
     );

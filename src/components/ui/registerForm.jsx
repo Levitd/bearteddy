@@ -4,10 +4,13 @@ import { validator } from "../../utils/validator";
 import FormComponent, { TextField, RadioField, CheckBoxField, GrouplButton, ButtonField } from "../common/form";
 import { FormattedMessage, useIntl } from "react-intl";
 import * as utils from "../../utils/util";
+import { toast } from "react-toastify";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 // https://t.me/Blackshadow_rus
 
-const RegisterForm = ({ user }) => {
+const RegisterForm = ({ user, appFB }) => {
+    const auth = getAuth(appFB);
     const today = utils.getDate("today");
     const intl = useIntl();
 
@@ -67,19 +70,28 @@ const RegisterForm = ({ user }) => {
     }
     const handleSubmit = (data) => {
         // console.log('data', data.email);
-        const hasEmail = utils.hasEmail(data.email);
-        if (hasEmail === -1) {
-            let users = utils.getStorage('users');
-            if (!users) users = [];
-            if (utils.setStorage('users', [...users, data])) {
-                // пользователь зарегистрировался, сразу залогинем его
-                utils.setStorage('user_activ', [data]);
-                user = utils.hasUser(data.email, data.password);
+        // const hasEmail = utils.hasEmail(data.email);
+        createUserWithEmailAndPassword(auth, data.email, data.password)
+            .then((userCredential) => {
+                // Signed in
+                const userAut = userCredential.user;
+                utils.setStorage('user_active', [userAut]);
                 document.querySelector(".nav-item_login").classList.toggle("d-none");
                 document.querySelector(".nav-item_personalArea").classList.toggle("d-none");
                 navigate("/successful_registration");
-            }
-        }
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log(errorCode);
+                let err_mess;
+                if (errorCode==="auth/email-already-in-use") {
+                    err_mess = intl.messages["the_specified_address_is_already_registered"];
+                } else {
+                    err_mess=intl.messages["error_has_occurred_please_try_again"];
+                }
+                toast.error(err_mess);
+            });
     };
     return (<>
         <FormComponent onSubmit={handleSubmit}

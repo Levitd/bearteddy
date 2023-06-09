@@ -1,15 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { validator } from "../../utils/validator";
+import React, { useState } from "react";
+// import { validator } from "../../utils/validator";
 import FormComponent, { TextField, CheckBoxField, GrouplButton, ButtonField } from "../common/form";
 
-import { FormattedMessage } from "react-intl";
+import {FormattedMessage, useIntl} from "react-intl";
 import * as utils from "../../utils/util";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "hooks/useUsers";
+// import { useUser } from "hooks/useUsers";
+import { toast } from "react-toastify";
+
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 // import * as yup from "yup";
 
-const LoginForm = ({ user }) => {
+const LoginForm = ({ user, appFB }) => {
+    const auth = getAuth(appFB);
+    const intl = useIntl();
+
+
     const navigate = useNavigate();
 
     const [data, setData] = useState({
@@ -33,32 +40,49 @@ const LoginForm = ({ user }) => {
             },
             isEmail: {
                 message: <FormattedMessage id='email_entered_incorrectly' />
-            },
-            hasEmail: {
-                message: <FormattedMessage id='the_specified_address_is_not_registered' />
             }
+            // hasEmail: {
+            //     message: <FormattedMessage id='the_specified_address_is_not_registered' />
+            // }
         },
         password: {
             isRequired: {
                 message: <FormattedMessage id='password_is_required' />
             },
             isCapitalSymbol: { message: <FormattedMessage id='password_must_contain_at_least_1_capital_letter' /> },
-            isContainDogit: { message: <FormattedMessage id='password_must_contain_at_least_1_number' /> },
+            isContainNumber: { message: <FormattedMessage id='password_must_contain_at_least_1_number' /> },
             min: { message: <FormattedMessage id='password_must_be_at_least_8_characters' />, value: 8 }
         }
     };
 
-    const { users, findUser } = useUser();
+    // const { foundUser, findUser } = useUser();
 
     const handleSubmit = (data) => {
-        // user = utils.hasUser(data.email, data.password);
-        user = findUser({ params: { "email": data.email, "password": data.password } });
-        // if (user) {
-        //     utils.setStorage('user_activ', [user]);
-        //     document.querySelector(".nav-item_login").classList.toggle("d-none");
-        //     document.querySelector(".nav-item_personalArea").classList.toggle("d-none");
-        //     navigate("/");
-        // }
+        let userAut;
+        signInWithEmailAndPassword(auth, data.email, data.password)
+            .then((userCredential) => {
+                // Signed in
+                userAut = userCredential.user;
+                console.log(userAut);
+                // ...
+                utils.setStorage('user_active', [userAut]);
+                document.querySelector(".nav-item_login").classList.toggle("d-none");
+                document.querySelector(".nav-item_personalArea").classList.toggle("d-none");
+                navigate("/");
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                let err_mess;
+                if (errorCode==="auth/user-not-found") {
+                    err_mess = intl.messages["email_is_incorrect"];
+                } else if (errorCode==="auth/wrong-password"){
+                            err_mess = intl.messages["password_is_incorrect"];
+                } else {
+                    err_mess=intl.messages["error_has_occurred_please_try_again"];
+                }
+                toast.error(err_mess);
+            });
     };
     const recalculation = (data) => {
         return (data);

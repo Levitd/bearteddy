@@ -78,7 +78,7 @@ export function getFullYearOfBirth(date) { // Полных лет с рожде�
         let age = today.getFullYear() - birthDate.getFullYear();
 
         let m = today.getMonth() - birthDate.getMonth();
-        let d = today.getDay() - birthDate.getDay();
+        // let d = today.getDay() - birthDate.getDay();
 
         if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
             age--;
