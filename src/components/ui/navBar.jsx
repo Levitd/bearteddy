@@ -2,8 +2,10 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import { LOCALES } from "../../i18n/locales";
+import { useAuth } from "hooks/useAuth";
 
-const NavBar = ({ currentLocale, handleChange, isAuth }) => {
+const NavBar = ({ currentLocale, handleChange }) => {
+    const { currentUser } = useAuth();
     const languages = [
         { name: 'English', code: LOCALES.ENGLISH },
         { name: 'Русский', code: LOCALES.RUSSIAN }]
@@ -48,7 +50,7 @@ const NavBar = ({ currentLocale, handleChange, isAuth }) => {
                                     </select>
                                 </div>
                             </li>
-                            <li className={`nav-item nav-item_login ${isAuth ? "d-none" : ""}`} key="login" >
+                            <li className={`nav-item nav-item_login ${currentUser ? "d-none" : ""}`} key="login" >
                                 <NavLink className=
                                     {
                                         ({ isActive }) =>
@@ -61,7 +63,7 @@ const NavBar = ({ currentLocale, handleChange, isAuth }) => {
                                     </div>
                                 </NavLink>
                             </li>
-                            <li className={`nav-item nav-item_personalArea ${!isAuth ? "d-none" : ""}`} key="personalArea" >
+                            <li className={`nav-item nav-item_personalArea ${!currentUser ? "d-none" : ""}`} key="personalArea" >
                                 <NavLink className=
                                     {
                                         ({ isActive }) =>

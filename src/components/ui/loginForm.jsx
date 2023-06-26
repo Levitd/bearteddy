@@ -2,22 +2,24 @@ import React, { useState } from "react";
 // import { validator } from "../../utils/validator";
 import FormComponent, { TextField, CheckBoxField, GrouplButton, ButtonField } from "../common/form";
 
-import {FormattedMessage, useIntl} from "react-intl";
-import * as utils from "../../utils/util";
+import { FormattedMessage, useIntl } from "react-intl";
+// import * as utils from "../../utils/util";
 import { useNavigate } from "react-router-dom";
 // import { useUser } from "hooks/useUsers";
 import { toast } from "react-toastify";
 
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+// import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useAuth } from "hooks/useAuth";
 
 // import * as yup from "yup";
 
 const LoginForm = ({ user, appFB }) => {
-    const auth = getAuth(appFB);
+    const { signIn } = useAuth();
     const intl = useIntl();
-
-
     const navigate = useNavigate();
+    // const location = useLocation();
+    const [errors, setErrors] = useState({});
+    const [enrerError, setEnterError] = useState(null);
 
     const [data, setData] = useState({
         email: "",
@@ -57,33 +59,28 @@ const LoginForm = ({ user, appFB }) => {
 
     // const { foundUser, findUser } = useUser();
 
-    const handleSubmit = (data) => {
-        let userAut;
-        signInWithEmailAndPassword(auth, data.email, data.password)
-            .then((userCredential) => {
-                // Signed in
-                userAut = userCredential.user;
-                console.log(userAut);
-                // ...
-                utils.setStorage('user_active', [userAut]);
-                document.querySelector(".nav-item_login").classList.toggle("d-none");
-                document.querySelector(".nav-item_personalArea").classList.toggle("d-none");
-                navigate("/");
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                let err_mess;
-                if (errorCode==="auth/user-not-found") {
-                    err_mess = intl.messages["email_is_incorrect"];
-                } else if (errorCode==="auth/wrong-password"){
-                            err_mess = intl.messages["password_is_incorrect"];
-                } else {
-                    err_mess=intl.messages["error_has_occurred_please_try_again"];
-                }
-                toast.error(err_mess);
-            });
+    const handleSubmit = async (data) => {
+        try {
+            await signIn(data);
+            console.log(navigate.current);
+            // navigate(navigate.location.state ? navigate.location.state.from.pathname : "/");
+            navigate("/");
+        } catch (error) {
+            if (error.message) {
+                setEnterError(error.message);
+            } else {
+                setErrors(error);
+            }
+        }
     };
+    const handleChange = (target) => {
+        setData((prevState) => ({
+            ...prevState,
+            [target.name]: target.value
+        }));
+        setEnterError(null);
+    };
+
     const recalculation = (data) => {
         return (data);
     }
@@ -97,11 +94,13 @@ const LoginForm = ({ user, appFB }) => {
                 label={<FormattedMessage id='email' />}
                 name="email"
                 autoFocus
+                onChange={handleChange}
             />
             <TextField
                 label={<FormattedMessage id='password' />}
                 type="password"
                 name="password"
+                onChange={handleChange}
             />
             <CheckBoxField
                 name="stayOn"

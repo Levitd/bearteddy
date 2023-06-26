@@ -11,7 +11,7 @@ import { messages } from "../src/i18n/messages";
 
 import { initializeApp } from 'firebase/app';
 import { getDatabase } from "firebase/database";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+// import { getAuth } from "firebase/auth";
 import { getAnalytics } from "firebase/analytics";
 import configFile from "./config.json";
 
@@ -21,46 +21,25 @@ import Login from "./layout/login";
 import Footer from "./components/ui/footer";
 import SuccRegistr from "./components/ui/succRegistr";
 import NotRegistered from "./components/ui/notRegistered";
-import * as utils from "../src/utils/util";
+// import * as utils from "../src/utils/util";
 import PersonalArea from "./components/ui/personalArea";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import UserProvider from "hooks/useUsers";
+import ProtectedRoute from "components/common/protectedRoute";
+import AuthProvider from "hooks/useAuth";
 
 
 const appFB = initializeApp(configFile.firebaseConfig);
 const database = getDatabase(appFB);
 console.log(database);
 const analytics = getAnalytics(appFB);
+console.log(analytics);
 
 function App() {
-  // const user = utils.getStorage('user_active');
-  let user;
-  const auth = getAuth();
-  const [isAuth, setIsAuth]= useState(false);
-  const userActive = auth.currentUser;
-
-
-  useEffect(()=>{
-    if (userActive) {
-
-      setIsAuth(true);
-    }
-    console.log(userActive);
-  },[userActive]);
-  // onAuthStateChanged(auth, (user) => {
-  //   if (user) {
-  //     // User is signed in, see docs for a list of available properties
-  //     // https://firebase.google.com/docs/reference/js/auth.user
-  //     // const uid = user.uid;
-  //     isAuth=true;
-  //   } else {
-  //     // User is signed out
-  //     isAuth=false;
-  //   }
-  // });
-
-  // const [isAuth] = useState(user ? true : false);
+  // console.log(useAuth());
+  // const { currentUser } = useAuth();
+  // console.log(currentUser);
 
   function getInitialLocale() {
     const savedLocale = JSON.parse(localStorage.getItem('locale'));
@@ -72,26 +51,34 @@ function App() {
     localStorage.setItem('locale', JSON.stringify(value));
   };
 
+  /*
+  <ProtectedRoute>
+                    <PersonalArea />
+                  </ProtectedRoute>
+                  */
   return (
     <>
       <IntlProvider messages={messages[currentLocale]}
         locale={currentLocale} defaultLocale={LOCALES.ENGLISH}
       >
+
         <BrowserRouter>
-          <NavBar currentLocale={currentLocale} handleChange={handleChangeLang} isAuth={isAuth} />
-          <div className="page_link">
-            <UserProvider>
+          <AuthProvider>
+            <NavBar currentLocale={currentLocale} handleChange={handleChangeLang} />
+            <div className="page_link">
+              {/* <UserProvider> */}
               <Routes>
                 <Route path="/" element={<MainPage />} />
                 <Route path="autors" element={<AutorsPage />} />
-                <Route path="login" element={<Login />} user={user} appFB={appFB}/>
+                <Route path="login" element={<Login />} appFB={appFB} />
                 <Route path="successful_registration" element={<SuccRegistr />} />
                 <Route path="not-registered" element={<NotRegistered />} />
                 <Route path="personalArea" element={<PersonalArea />} />
               </Routes>
-            </UserProvider>
-          </div>
-          <Footer />
+              {/* </UserProvider> */}
+            </div>
+            <Footer />
+          </AuthProvider>
         </BrowserRouter>
       </IntlProvider>
       <ToastContainer />
