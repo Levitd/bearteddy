@@ -85,7 +85,7 @@ const PersonalArea = () => {
     }
 
     if (!isLoading && savedData) {
-        console.log(savedData);
+        // console.log(savedData);
         return (
             <div className="main">
                 <h1 className="headPage"><FormattedMessage id='personal_area' /></h1>
